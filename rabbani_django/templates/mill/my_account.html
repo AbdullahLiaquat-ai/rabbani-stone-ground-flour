@@ -1,0 +1,75 @@
+{% extends 'mill/base.html' %}
+
+{% block title %}My Account | Rabbani Stone-Ground Flour{% endblock %}
+
+{% block content %}
+<section class="section-pad-sm bg-white">
+  <div class="container">
+    <div class="section-heading" style="margin-bottom: 30px;">
+      <div class="tag">Customer Dashboard</div>
+      <h2>Welcome back, {{ user.first_name|default:user.username }}</h2>
+      <p>Place a new order and follow its status — only mill staff can update where it stands.</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="card-rm p-4">
+          <h5 class="fw-800 mb-3">🛒 Place an Order</h5>
+          <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label fw-600">Product</label>
+              {{ form.product }}
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-600">Weight (KG)</label>
+              {{ form.weight_kg }}
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-600">Delivery City</label>
+              {{ form.destination_city }}
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-600">Phone</label>
+              {{ form.phone }}
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-600">Delivery Address</label>
+              {{ form.delivery_address }}
+            </div>
+            <div class="alert alert-light border rounded-rm" style="font-size: 0.85rem;">
+              💰 Product cost, delivery fare, total amount, and the tracking ID are calculated automatically when you submit.
+            </div>
+            <button type="submit" class="btn-primary-rm w-100">Submit Order</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-800 mb-0">📦 Your Orders</h5>
+          <a href="{% url 'mill:logout' %}" class="btn-outline-rm" style="color:#111; border-color: var(--border);">Log Out</a>
+        </div>
+
+        <div id="ordersList">
+          {% for order in orders %}
+          <div class="card-rm p-3 mb-3">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+              <div>
+                <div class="tracking-mono fw-800">{{ order.tracking_number }}</div>
+                <div class="text-muted small mt-1">{{ order.product.icon }} {{ order.product.name }} · {{ order.weight_kg }} kg · {{ order.destination_city }}</div>
+                <div class="text-muted small">{{ order.created_at|date:"d M Y, h:i A" }} · Rs. {{ order.total_amount }}</div>
+              </div>
+              <span class="status-badge {{ order.status_badge_class }}">{{ order.get_status_display }}</span>
+            </div>
+          </div>
+          {% empty %}
+          <div class="card-rm p-4 text-center text-muted">No orders yet. Place your first order using the form.</div>
+          {% endfor %}
+        </div>
+        <!-- Intentionally no status-editing controls here: customers can only view status. -->
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

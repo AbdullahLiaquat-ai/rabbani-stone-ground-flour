@@ -1,0 +1,34 @@
+{% extends 'mill/base.html' %}
+
+{% block title %}Admin Login | Rabbani Stone-Ground Flour{% endblock %}
+
+{% block content %}
+<main class="auth-shell">
+  <div class="auth-card">
+    <div class="hero-badge">Mill Staff Only</div>
+    <h1>Admin Login</h1>
+    <p class="lead-copy">Sign in to update milling and delivery status for customer orders. Customers cannot access this area.</p>
+
+    {% if error %}
+      <div class="alert alert-danger rounded-rm">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label" for="admin_username">Admin Username</label>
+        <input type="text" class="form-control" id="admin_username" name="username" placeholder="admin" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="admin_password">Password</label>
+        <input type="password" class="form-control" id="admin_password" name="password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn-primary-rm w-100">Log In to Dashboard</button>
+    </form>
+
+    <div class="divider-line"></div>
+    <p class="switch-line">Not mill staff? <a href="{% url 'mill:login' %}" class="aux-link">Customer login</a></p>
+    <p class="switch-line mt-2">Demo login: <strong>admin</strong> / <strong>admin123</strong></p>
+  </div>
+</main>
+{% endblock %}

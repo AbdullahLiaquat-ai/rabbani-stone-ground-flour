@@ -1,0 +1,85 @@
+{% extends 'mill/base.html' %}
+
+{% block title %}Contact Us | Rabbani Stone-Ground Flour{% endblock %}
+
+{% block content %}
+<section class="section-pad-sm bg-white">
+  <div class="container">
+    <div class="section-heading">
+      <div class="tag">Get in Touch</div>
+      <h2>Contact Rabbani Stone-Ground Flour</h2>
+      <p>Fastest response is always on WhatsApp</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-md-3 col-6">
+        <div class="card-rm p-4 h-100 text-center">
+          <div class="card-icon bg-yellow-light mx-auto">📍</div>
+          <h6 class="fw-800">Visit</h6>
+          <p class="text-muted" style="font-size: 0.85rem;">{{ shop_address }}</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card-rm p-4 h-100 text-center">
+          <div class="card-icon bg-yellow-light mx-auto">📞</div>
+          <h6 class="fw-800">Call</h6>
+          <p class="text-muted" style="font-size: 0.85rem;">{{ whatsapp_display }}</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card-rm p-4 h-100 text-center">
+          <div class="card-icon bg-yellow-light mx-auto">📧</div>
+          <h6 class="fw-800">Email</h6>
+          <p class="text-muted" style="font-size: 0.85rem;">{{ contact_email }}</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card-rm p-4 h-100 text-center">
+          <div class="card-icon bg-yellow-light mx-auto">⏰</div>
+          <h6 class="fw-800">Hours</h6>
+          <p class="text-muted" style="font-size: 0.85rem;">{{ shop_hours }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="card-rm p-4 p-md-5 h-100 text-center d-flex flex-column justify-content-center">
+          <div style="font-size: 3rem;">💬</div>
+          <h4 class="fw-800 mt-2">Chat With Us on WhatsApp</h4>
+          <p class="text-muted">Fastest way to place a bulk order, ask about a flour, or check delivery to your city.</p>
+          <a href="{{ whatsapp_link }}" target="_blank" class="whatsapp-btn mx-auto mt-2" style="padding: 12px 30px; font-size: 1rem;">
+            💬 Message {{ whatsapp_display }}
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="card-rm p-4 p-md-5">
+          <h5 class="fw-800 mb-3">Or Send Us a Message</h5>
+          <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-600">Full Name</label>
+                {{ form.name }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-600">Phone Number</label>
+                {{ form.phone }}
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-600">Message</label>
+                {{ form.message }}
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn-primary-rm">Send Message</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

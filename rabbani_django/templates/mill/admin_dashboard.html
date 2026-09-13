@@ -1,0 +1,124 @@
+{% extends 'mill/base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard | Rabbani Stone-Ground Flour{% endblock %}
+
+{% block content %}
+<section class="section-pad-sm" style="padding-top: 30px;">
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+      <div>
+        <div class="tag mb-2 d-inline-block">Mill Staff</div>
+        <h2 class="fw-800 mb-0">Admin Dashboard</h2>
+        <p class="text-muted mb-0">Signed in as {{ user.first_name|default:user.username }}</p>
+      </div>
+      <a href="{% url 'mill:admin_logout' %}" class="btn-outline-rm" style="color:#111; border-color: var(--border);">Log Out</a>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <div class="card-rm dash-kpi">
+          <div class="kpi-label">Total Orders</div>
+          <div class="kpi-value">{{ total_orders }}</div>
+          <div class="kpi-sub">Across all statuses</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card-rm dash-kpi">
+          <div class="kpi-label">On-Time Delivery Rate</div>
+          <div class="kpi-value">{{ on_time_rate }}%</div>
+          <div class="kpi-sub">{{ delivered_count }} delivered</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card-rm dash-kpi">
+          <div class="kpi-label">Total Revenue</div>
+          <div class="kpi-value">Rs. {{ total_revenue }}</div>
+          <div class="kpi-sub">Product + delivery fares</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-lg-7">
+        <div class="dash-panel h-100">
+          <h5>Orders &amp; Revenue (Last 7 Days)</h5>
+          <div class="panel-sub mb-2">Daily order count vs. revenue collected</div>
+          <canvas id="trendChart" height="200"></canvas>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="dash-panel h-100">
+          <h5>Orders by Status</h5>
+          <div class="panel-sub mb-2">Current breakdown across all orders</div>
+          <canvas id="statusChart" height="200"></canvas>
+          <div class="mt-3" id="statusLegend"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-panel mb-5">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+        <h5 class="mb-0">Order Manifest</h5>
+        <div class="filter-tabs">
+          <a href="?status=ALL" class="filter-tab {% if status_filter == 'ALL' %}active{% endif %}">All</a>
+          {% for code, label in status_choices %}
+            <a href="?status={{ code }}" class="filter-tab {% if status_filter == code %}active{% endif %}">{{ label }}</a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table dash-table align-middle">
+          <thead>
+            <tr>
+              <th>Tracking ID</th>
+              <th>Customer</th>
+              <th>Product</th>
+              <th>City</th>
+              <th>Placed</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Update</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody">
+            {% for order in orders %}
+            <tr data-tracking="{{ order.tracking_number }}">
+              <td class="tracking-mono">{{ order.tracking_number }}</td>
+              <td>{{ order.customer.get_full_name|default:order.customer.username }}</td>
+              <td>{{ order.product.icon }} {{ order.product.name }}<br><span class="text-muted small">{{ order.weight_kg }} kg</span></td>
+              <td>{{ order.destination_city }}</td>
+              <td class="text-muted small">{{ order.created_at|date:"d M, h:i A" }}</td>
+              <td class="fw-800">Rs. {{ order.total_amount }}</td>
+              <td><span class="status-badge {{ order.status_badge_class }} row-status-badge">{{ order.get_status_display }}</span></td>
+              <td>
+                <select class="form-select status-select-sm status-update-select" data-tracking="{{ order.tracking_number }}"
+                        data-update-url="{% url 'mill:admin_update_status' order.tracking_number %}">
+                  {% for code, label in status_choices %}
+                    <option value="{{ code }}" {% if code == order.status %}selected{% endif %}>{{ label }}</option>
+                  {% endfor %}
+                </select>
+              </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="8" class="text-center text-muted py-4">No orders match this filter.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+{{ status_labels_json|json_script:"status-labels-data" }}
+{{ status_values_json|json_script:"status-values-data" }}
+{{ trend_labels_json|json_script:"trend-labels-data" }}
+{{ trend_revenue_json|json_script:"trend-revenue-data" }}
+{{ trend_orders_json|json_script:"trend-orders-data" }}
+<script src="{% static 'mill/js/dashboard.js' %}"
+        data-csrf="{{ csrf_token }}"></script>
+{% endblock %}

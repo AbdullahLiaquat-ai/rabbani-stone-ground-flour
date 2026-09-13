@@ -1,0 +1,161 @@
+{% extends 'mill/base.html' %}
+{% load static %}
+
+{% block title %}Rabbani Stone-Ground Flour | Hasan Abdal{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="hero-badge"><span>🇵🇰</span> Rabbani Stone-Ground · Hasan Abdal</div>
+        <h1>Pure <span class="highlight">Stone-Ground</span> Whole Wheat Flour &amp; More</h1>
+        <p class="lead mt-3">Traditional chakki-ground wheat flour, maize flour, and premium flours. Solar-powered milling — fresh, chemical-free, delivered to your doorstep.</p>
+
+        <div class="tracking-card mt-5">
+          <h3>🔍 Track Your Flour Order</h3>
+          <div class="tracking-input-group">
+            <input type="text" id="trackingInput" placeholder="Enter Order ID (e.g. RB-260813123456)" />
+            <button class="btn-primary-rm" id="trackBtn" type="button">🔍 Track</button>
+          </div>
+          <div id="trackingResult" class="mt-2"></div>
+        </div>
+
+        <div class="mt-4 p-4 bg-yellow-light rounded-rm">
+          <h6 class="fw-800 mb-3">💰 Delivery Charge Estimator</h6>
+          <div class="row g-2">
+            <div class="col-5">
+              <select class="form-select" id="calcOrigin">
+                <option value="">From City</option>
+                {% for city in cities %}<option>{{ city }}</option>{% endfor %}
+              </select>
+            </div>
+            <div class="col-2 text-center d-flex align-items-center justify-content-center">→</div>
+            <div class="col-5">
+              <select class="form-select" id="calcDest">
+                <option value="">To City</option>
+                {% for city in cities %}<option>{{ city }}</option>{% endfor %}
+              </select>
+            </div>
+          </div>
+          <div id="calcResult" class="mt-2 fw-600"></div>
+        </div>
+
+        <div class="mt-3">
+          <span class="solar-tip">☀️ Solar-powered milling · Eco-friendly &amp; fresh</span>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="hero-illustration">
+          <div class="truck-animation">🌾</div>
+          <div class="float-badge b1">📦 Order Placed</div>
+          <div class="float-badge b2">✅ Delivered!</div>
+          <div class="float-badge b3">⚡ Solar Milled</div>
+        </div>
+
+        <div class="row g-3 mt-2">
+          <div class="col-4">
+            <div class="card-rm p-3 text-center">
+              <div class="fw-800 h4 text-yellow mb-0">{{ total_orders }}+</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted)">Flour Orders</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card-rm p-3 text-center">
+              <div class="fw-800 h4 text-yellow mb-0">{{ cities_served }}</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted)">Cities</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card-rm p-3 text-center">
+              <div class="fw-800 h4 text-yellow mb-0">100%</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted)">Stone-Ground</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-white">
+  <div class="container">
+    <div class="section-heading">
+      <div class="tag">Our Flours</div>
+      <h2>Premium Stone-Ground Flours</h2>
+      <p>Traditional chakki-ground, solar-milled, and packed with nutrition</p>
+    </div>
+    <div class="row g-4">
+      {% for product in products %}
+      <div class="col-lg-3 col-md-6">
+        <div class="card-rm p-4 h-100">
+          <div class="card-icon bg-yellow-light">{{ product.icon }}</div>
+          <h5 class="fw-800">{{ product.name }}</h5>
+          <p class="text-muted" style="font-size: 0.9rem">{{ product.description }}</p>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="flour-tag">{{ product.get_tag_display }}</span>
+            <span class="fw-800 text-yellow">Rs. {{ product.rate_per_kg }}/kg</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="section-heading">
+      <div class="tag">Process</div>
+      <h2>How It Works</h2>
+      <p>Order your flour, we mill fresh, deliver across Pakistan</p>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-3">
+        <div class="how-step">
+          <div class="step-num">1</div>
+          <h4>Order Online</h4>
+          <p>Select your flour, quantity, and delivery city. We mill fresh on order.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="how-step">
+          <div class="step-num">2</div>
+          <h4>Solar Milling</h4>
+          <p>Stone-ground using solar power — retains nutrition &amp; taste.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="how-step">
+          <div class="step-num">3</div>
+          <h4>Track Live</h4>
+          <p>Monitor your flour order via tracking ID. Real-time updates.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="how-step">
+          <div class="step-num">4</div>
+          <h4>Delivered</h4>
+          <p>Fresh flour delivered to your door, fast and reliable.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad-sm" style="background: linear-gradient(135deg, #d4a800, #b58f00);">
+  <div class="container text-center">
+    <h2 class="fw-800 mb-3 text-white">Fresh Stone-Ground Flour, Delivered</h2>
+    <p class="mb-4 text-white" style="opacity: 0.9;">Solar milled · Preservative free · From Hasan Abdal to your home.</p>
+    <a href="{{ whatsapp_link }}" target="_blank" class="btn-outline-rm me-3">Order via WhatsApp</a>
+    <a href="{% url 'mill:my_account' %}" class="btn-primary-rm" style="background: #fff; color: #111;">Get Started</a>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'mill/js/app.js' %}"
+        data-track-url="{% url 'mill:track_order_api' %}"
+        data-estimate-url="{% url 'mill:estimate_fare_api' %}"></script>
+{% endblock %}

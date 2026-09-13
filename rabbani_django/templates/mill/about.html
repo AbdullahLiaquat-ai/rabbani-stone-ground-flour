@@ -1,0 +1,57 @@
+{% extends 'mill/base.html' %}
+
+{% block title %}About Us | Rabbani Stone-Ground Flour{% endblock %}
+
+{% block content %}
+<section class="section-pad-sm bg-white">
+  <div class="container">
+    <div class="section-heading">
+      <div class="tag">About Us</div>
+      <h2>A stone wheel turns slower — and that's the whole point</h2>
+      <p>From Hasan Abdal to your kitchen, milled fresh on every order</p>
+    </div>
+
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-6">
+        <div class="card-rm p-4 h-100">
+          <div class="card-icon bg-yellow-light">🪨</div>
+          <h5 class="fw-800">Traditional Stone Milling</h5>
+          <p class="text-muted">Steel roller mills spin fast and heat the grain, stripping away the germ and much of its nutrition. Our chakki stones turn slowly, milling at low temperatures so the natural oils, fibre and flavour of the wheat stay intact.</p>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card-rm p-4 h-100">
+          <div class="card-icon bg-yellow-light">☀️</div>
+          <h5 class="fw-800">Solar-Powered Milling</h5>
+          <p class="text-muted">We run a solar-assisted grinding line, cutting diesel dependence and keeping the mill running on sunlight for most of the day — quieter, cleaner, and true to the traditional process.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3 mt-4">
+      <div class="col-md-4">
+        <div class="card-rm p-4 text-center h-100">
+          <div class="fw-800 h3 text-yellow mb-0">100%</div>
+          <div class="text-muted" style="font-size:0.85rem;">Stone-Ground, Zero Preservatives</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card-rm p-4 text-center h-100">
+          <div class="fw-800 h3 text-yellow mb-0">{{ cities|length }}+</div>
+          <div class="text-muted" style="font-size:0.85rem;">Cities Delivered Across Pakistan</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card-rm p-4 text-center h-100">
+          <div class="fw-800 h3 text-yellow mb-0">☀️</div>
+          <div class="text-muted" style="font-size:0.85rem;">Solar-Assisted Grinding Line</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="{{ whatsapp_link }}" target="_blank" class="whatsapp-btn">💬 Ask Us Anything on WhatsApp</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

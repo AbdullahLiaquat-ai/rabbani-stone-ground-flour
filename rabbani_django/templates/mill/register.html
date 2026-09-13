@@ -1,0 +1,60 @@
+{% extends 'mill/base.html' %}
+
+{% block title %}Register | Rabbani Stone-Ground Flour{% endblock %}
+
+{% block content %}
+<main class="auth-shell">
+  <div class="auth-card">
+    <div class="hero-badge">New Customer</div>
+    <h1>Create your account</h1>
+    <p class="lead-copy">Register once to order stone-ground flour and track every delivery from mill to door.</p>
+
+    {% if form.errors %}
+      <div class="alert alert-danger rounded-rm">
+        {% for field in form %}
+          {% for error in field.errors %}<div>{{ field.label }}: {{ error }}</div>{% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}<div>{{ error }}</div>{% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Full Name</label>
+        {{ form.full_name }}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Phone Number</label>
+        {{ form.phone }}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        {{ form.email }}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Delivery City</label>
+        {{ form.city }}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        {{ form.username }}
+      </div>
+      <div class="row">
+        <div class="col-6 mb-3">
+          <label class="form-label">Password</label>
+          {{ form.password1 }}
+        </div>
+        <div class="col-6 mb-3">
+          <label class="form-label">Confirm Password</label>
+          {{ form.password2 }}
+        </div>
+      </div>
+      <button type="submit" class="btn-primary-rm w-100 mt-2">Create Account</button>
+    </form>
+
+    <div class="divider-line"></div>
+    <p class="switch-line">Already have an account? <a href="{% url 'mill:login' %}" class="aux-link">Log in</a></p>
+  </div>
+</main>
+{% endblock %}
